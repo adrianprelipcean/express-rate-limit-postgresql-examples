@@ -1,0 +1,14 @@
+{
+    "name": "rate-limit-postgres-tests-es6",
+    "type": "module",
+    "version": "0.0.0",
+    "private": true,
+    "scripts": {
+        "start": "node ./app.js"
+    },
+    "dependencies": {
+        "@acpr/rate-limit-postgresql": "~1.1.0",
+        "express": "~4.16.1",
+        "express-rate-limit": "^6.11.0"
+    }
+}
