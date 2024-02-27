@@ -21,7 +21,7 @@ let databaseConnection = {
 }
 
 const aggregatedRateLimiter = rateLimit({
-  windowMs: 200, // 200 ms
+  windowMs: 1000, // 1000 ms
   max: 3, // Limit each IP to 3 requests per `window` (here, per 15 minutes)
   message:
     'Too many accounts created from this IP, please try again after 15 minutes',
@@ -33,7 +33,7 @@ const aggregatedRateLimiter = rateLimit({
   ), // Use an external store for more precise rate limiting
 })
 const aggregatedRateLimiterShared = rateLimit({
-  windowMs: 200, // 200 ms
+  windowMs: 1000, // 1000 ms
   max: 3, // Limit each IP to 3 requests per `window` (here, per 15 minutes)
   message:
     'Too many accounts created from this IP, please try again after 15 minutes',
@@ -45,7 +45,7 @@ const aggregatedRateLimiterShared = rateLimit({
   ), // Use an external store for more precise rate limiting
 })
 const aggregatedRateLimiterUnique = rateLimit({
-  windowMs: 200, // 200 ms
+  windowMs: 1000, // 1000 ms
   max: 3, // Limit each IP to 3 requests per `window` (here, per 15 minutes)
   message:
     'Too many accounts created from this IP, please try again after 15 minutes',
@@ -58,7 +58,7 @@ const aggregatedRateLimiterUnique = rateLimit({
 })
 
 const individualRateLimiter = rateLimit({
-  windowMs: 200, // 200ms
+  windowMs: 1000, // 1000ms
   max: 3, // Limit each IP to 3 requests per `window` (here, per 15 minutes)
   message:
     'Too many accounts created from this IP, please try again after 15 minutes',
@@ -70,7 +70,7 @@ const individualRateLimiter = rateLimit({
 })
 
 const individualRateLimiterShared = rateLimit({
-  windowMs: 200, // 200ms
+  windowMs: 1000, // 1000ms
   max: 3, // Limit each IP to 3 requests per `window` (here, per 15 minutes)
   message:
     'Too many accounts created from this IP, please try again after 15 minutes',
@@ -82,7 +82,7 @@ const individualRateLimiterShared = rateLimit({
 })
 
 const individualRateLimiterUnique = rateLimit({
-  windowMs: 200, // 200ms
+  windowMs: 1000, // 1000ms
   max: 3, // Limit each IP to 3 requests per `window` (here, per 15 minutes)
   message:
     'Too many accounts created from this IP, please try again after 15 minutes',
