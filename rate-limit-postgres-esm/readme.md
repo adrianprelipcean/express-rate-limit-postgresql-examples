@@ -9,14 +9,14 @@ Simple Express APP using ES6 syntax.
 
 2. Run `docker compose up -d`
 
-3. Access `http://localhost:3005/users` for testing `PostgresStore` (aggregated store, used by default). You will be able to see the state of the rate limiting table by running 
+3. Access `http://localhost:3005/users-agg` for testing `PostgresStore` (aggregated store, used by default). You will be able to see the state of the rate limiting table by running 
 
 ```sh
-docker compose exec db psql --user user database -c "select * from rate_limit.aggregated_records;"
+docker compose exec db psql --user user database -c "select * from rate_limit.aggregated;"
 ```
 
 
-4. Access `http://localhost:3005/other-users` for testing `PostgresStoreIndividualIP`. You will be able to see the state of the rate limiting table by running 
+4. Access `http://localhost:3005/users-ind` for testing `PostgresStoreIndividualIP`. You will be able to see the state of the rate limiting table by running 
 
 ```sh
 docker compose exec db psql --user user database -c "select * from rate_limit.individual_records;"
