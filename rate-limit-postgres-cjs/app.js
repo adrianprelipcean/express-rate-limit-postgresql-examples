@@ -21,8 +21,8 @@ let databaseConnection = {
 }
 
 const aggregatedRateLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 3, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+  windowMs: 200, // 200 ms
+  max: 3, // Limit each IP to 3 requests per `window` (here, per 15 minutes)
   message:
     'Too many accounts created from this IP, please try again after 15 minutes',
   standardHeaders: 'draft-7', // Set `RateLimit` and `RateLimit-Policy`` headers
@@ -32,11 +32,34 @@ const aggregatedRateLimiter = rateLimit({
     'aggregated_store'
   ), // Use an external store for more precise rate limiting
 })
-
+const aggregatedRateLimiterShared = rateLimit({
+  windowMs: 200, // 200 ms
+  max: 3, // Limit each IP to 3 requests per `window` (here, per 15 minutes)
+  message:
+    'Too many accounts created from this IP, please try again after 15 minutes',
+  standardHeaders: 'draft-7', // Set `RateLimit` and `RateLimit-Policy`` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  store: new PostgresStore(
+    databaseConnection,
+    'aggregated_store'
+  ), // Use an external store for more precise rate limiting
+})
+const aggregatedRateLimiterUnique = rateLimit({
+  windowMs: 200, // 200 ms
+  max: 3, // Limit each IP to 3 requests per `window` (here, per 15 minutes)
+  message:
+    'Too many accounts created from this IP, please try again after 15 minutes',
+  standardHeaders: 'draft-7', // Set `RateLimit` and `RateLimit-Policy`` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  store: new PostgresStore(
+    databaseConnection,
+    'aggregated_store_unique'
+  ), // Use an external store for more precise rate limiting
+})
 
 const individualRateLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 3, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+  windowMs: 200, // 200ms
+  max: 3, // Limit each IP to 3 requests per `window` (here, per 15 minutes)
   message:
     'Too many accounts created from this IP, please try again after 15 minutes',
   standardHeaders: 'draft-7', // Set `RateLimit` and `RateLimit-Policy`` headers
@@ -44,6 +67,30 @@ const individualRateLimiter = rateLimit({
   store: new PostgresStoreIndividualIP(
     databaseConnection,
     'individual_store'), // Use an external store for more precise rate limiting
+})
+
+const individualRateLimiterShared = rateLimit({
+  windowMs: 200, // 200ms
+  max: 3, // Limit each IP to 3 requests per `window` (here, per 15 minutes)
+  message:
+    'Too many accounts created from this IP, please try again after 15 minutes',
+  standardHeaders: 'draft-7', // Set `RateLimit` and `RateLimit-Policy`` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  store: new PostgresStoreIndividualIP(
+    databaseConnection,
+    'individual_store'), // Use an external store for more precise rate limiting
+})
+
+const individualRateLimiterUnique = rateLimit({
+  windowMs: 200, // 200ms
+  max: 3, // Limit each IP to 3 requests per `window` (here, per 15 minutes)
+  message:
+    'Too many accounts created from this IP, please try again after 15 minutes',
+  standardHeaders: 'draft-7', // Set `RateLimit` and `RateLimit-Policy`` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  store: new PostgresStoreIndividualIP(
+    databaseConnection,
+    'individual_store_unique'), // Use an external store for more precise rate limiting
 })
 
 var app = express();
@@ -59,8 +106,13 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', aggregatedRateLimiter, usersRouter);
-app.use('/other-users', individualRateLimiter, usersRouter);
+app.use('/users-agg', aggregatedRateLimiter, usersRouter);
+app.use('/users-agg-shared', aggregatedRateLimiterShared, usersRouter);
+app.use('/users-agg-unique', aggregatedRateLimiterUnique, usersRouter);
+
+app.use('/users-ind', individualRateLimiter, usersRouter);
+app.use('/users-ind-shared', individualRateLimiterShared, usersRouter);
+app.use('/users-ind-unique', individualRateLimiterUnique, usersRouter);
 
 
 // catch 404 and forward to error handler
