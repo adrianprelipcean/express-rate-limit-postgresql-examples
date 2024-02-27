@@ -14,10 +14,10 @@ let databaseConnection = {
 
 
 const aggregatedRateLimiter = rateLimit({
-    windowMs: 200, // 200 ms
-    max: 3, // Limit each IP to 3 requests per `window` (here, per 15 minutes)
+    windowMs: 1000, // 1000 ms
+    max: 3, // Limit each IP to 3 requests per `window` (here, per 1 minute)
     message:
-      'Too many accounts created from this IP, please try again after 15 minutes',
+      'Too many accounts created from this IP, please try again after 1 minute',
     standardHeaders: 'draft-7', // Set `RateLimit` and `RateLimit-Policy`` headers
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
     store: new PostgresStore(
@@ -26,10 +26,10 @@ const aggregatedRateLimiter = rateLimit({
     ), // Use an external store for more precise rate limiting
   })
   const aggregatedRateLimiterShared = rateLimit({
-    windowMs: 200, // 200 ms
-    max: 3, // Limit each IP to 3 requests per `window` (here, per 15 minutes)
+    windowMs: 1000, // 1000 ms
+    max: 3, // Limit each IP to 3 requests per `window` (here, per 1 minute)
     message:
-      'Too many accounts created from this IP, please try again after 15 minutes',
+      'Too many accounts created from this IP, please try again after 1 minute',
     standardHeaders: 'draft-7', // Set `RateLimit` and `RateLimit-Policy`` headers
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
     store: new PostgresStore(
@@ -38,10 +38,10 @@ const aggregatedRateLimiter = rateLimit({
     ), // Use an external store for more precise rate limiting
   })
   const aggregatedRateLimiterUnique = rateLimit({
-    windowMs: 200, // 200 ms
-    max: 3, // Limit each IP to 3 requests per `window` (here, per 15 minutes)
+    windowMs: 1000, // 1000 ms
+    max: 3, // Limit each IP to 3 requests per `window` (here, per 1 minute)
     message:
-      'Too many accounts created from this IP, please try again after 15 minutes',
+      'Too many accounts created from this IP, please try again after 1 minute',
     standardHeaders: 'draft-7', // Set `RateLimit` and `RateLimit-Policy`` headers
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
     store: new PostgresStore(
@@ -51,10 +51,10 @@ const aggregatedRateLimiter = rateLimit({
   })
   
   const individualRateLimiter = rateLimit({
-    windowMs: 200, // 200ms
-    max: 3, // Limit each IP to 3 requests per `window` (here, per 15 minutes)
+    windowMs: 1000, // 1000ms
+    max: 3, // Limit each IP to 3 requests per `window` (here, per 1 minute)
     message:
-      'Too many accounts created from this IP, please try again after 15 minutes',
+      'Too many accounts created from this IP, please try again after 1 minute',
     standardHeaders: 'draft-7', // Set `RateLimit` and `RateLimit-Policy`` headers
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
     store: new PostgresStoreIndividualIP(
@@ -63,10 +63,10 @@ const aggregatedRateLimiter = rateLimit({
   })
 
   const individualRateLimiterShared = rateLimit({
-    windowMs: 200, // 200ms
-    max: 3, // Limit each IP to 3 requests per `window` (here, per 15 minutes)
+    windowMs: 1000, // 1000ms
+    max: 3, // Limit each IP to 3 requests per `window` (here, per 1 minute)
     message:
-      'Too many accounts created from this IP, please try again after 15 minutes',
+      'Too many accounts created from this IP, please try again after 1 minute',
     standardHeaders: 'draft-7', // Set `RateLimit` and `RateLimit-Policy`` headers
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
     store: new PostgresStoreIndividualIP(
@@ -75,10 +75,10 @@ const aggregatedRateLimiter = rateLimit({
   })
 
   const individualRateLimiterUnique = rateLimit({
-    windowMs: 200, // 200ms
-    max: 3, // Limit each IP to 3 requests per `window` (here, per 15 minutes)
+    windowMs: 1000, // 1000ms
+    max: 3, // Limit each IP to 3 requests per `window` (here, per 1 minute)
     message:
-      'Too many accounts created from this IP, please try again after 15 minutes',
+      'Too many accounts created from this IP, please try again after 1 minute',
     standardHeaders: 'draft-7', // Set `RateLimit` and `RateLimit-Policy`` headers
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
     store: new PostgresStoreIndividualIP(
@@ -103,7 +103,7 @@ const port = process.env.PORT || 3000;
 
 app.get("/", (req, res, next) => {
   res
-    .status(200)
+    .status(1000)
     .json({ status: true, msg: "Welcome ES6 with Node ESM Liabrary" });
 });
 
@@ -116,7 +116,7 @@ app.use((req, res, next) => {
 
 // Handles global errors
 app.use((err, req, res, next) => {
-  const statusCode = res.statusCode !== 200 ? res.statusCode : 500;
+  const statusCode = res.statusCode !== 1000 ? res.statusCode : 500;
   res.status(statusCode);
   res.json({
     message: err.message,
