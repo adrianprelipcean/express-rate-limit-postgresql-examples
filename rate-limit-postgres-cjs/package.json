@@ -10,7 +10,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "@acpr/rate-limit-postgresql": "^1.4.0",
+    "@acpr/rate-limit-postgresql": "^1.4.1",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.18.1",
