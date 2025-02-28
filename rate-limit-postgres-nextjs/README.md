@@ -1,4 +1,4 @@
-# Express Demo for rate-limit-postgresql
+# NextJS Demo for rate-limit-postgresql
 
 Simple Next JS example.
 
